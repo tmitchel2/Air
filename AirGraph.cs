@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Air
@@ -33,22 +33,19 @@ namespace Air
         /// </summary>
         private void Initialise()
         {
-            var airGraphTask = TryGetAsync<AirGraphNode>(0);
+            var airGraphTask = TryGetAsync<AirGraphNode>(1);
             airGraphTask.Wait();
             if (airGraphTask.Result == null)
             {
-                BootstrapStorage();
-            }
-        }
+                var airGraph = new AirGraphNode { Id = 1 };
+                var postTask = UpdateAsync(airGraph);
+                postTask.Wait();
 
-        /// <summary>
-        /// Bootstraps the storage.
-        /// </summary>
-        private void BootstrapStorage()
-        {
-            var airGraph = new AirGraphNode { Id = 0 };
-            var postTask = PostAsync(airGraph);
-            postTask.Wait();
+                if (Configuration.Bootstrapping != null)
+                {
+                    Configuration.Bootstrapping(this);
+                }
+            }
         }
 
         /// <summary>
@@ -56,9 +53,16 @@ namespace Air
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        public long GetIndexId(string name)
+        public async Task<long> GetIndexId(string name)
         {
-            return 0;
+            var node = await TryGetAsync<AirGraphNode>(1);
+            var edge = node.IdsByIndexName.FirstOrDefault(f => f.Item1 == name);
+            if (edge == null)
+            {
+                throw new KeyNotFoundException();
+            }
+
+            return edge.Item2;
         }
 
         /// <summary>
@@ -102,11 +106,44 @@ namespace Air
         /// </summary>
         /// <param name="item">The item.</param>
         /// <returns></returns>
-        public async Task PostAsync(IAirEntity item)
+        public async Task UpdateAsync(IAirEntity item)
         {
             var serialiser = Configuration.Serialisation.Get(item.GetType());
             var data = serialiser.Serialise(item);
+            await Configuration.Storage.SetAsync(item.Id, data);
+        }
+
+        /// <summary>
+        /// AddAsync
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public async Task AddAsync(IAirEntity item)
+        {
+            await SetServerId(item);
+            var serialiser = Configuration.Serialisation.Get(item.GetType());
+            var data = serialiser.Serialise(item);
             await Configuration.Storage.AddAsync(item.Id, data);
+        }
+
+        public Task AddAsync(IEnumerable<IAirEntity> items)
+        {
+            return Task.WhenAll(items.Select(AddAsync));
+        }
+
+        /// <summary>
+        /// SetServerId
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        private async Task SetServerId(IAirEntity item)
+        {
+            //await Configuration.Storage.GetLockAsync(1);
+            //var node = await TryGetAsync<AirGraphNode>(1);
+            //item.Id = node.NextAvailableId++;
+            //await UpdateAsync(node);
+            //Configuration.Storage.ReleaseLockAsync(1);
+            item.Id = Configuration.IdFactory.GetNextId();
         }
 
         /// <summary>

@@ -1,3 +1,5 @@
+using System;
+
 namespace Air
 {
     /// <summary>
@@ -12,7 +14,17 @@ namespace Air
         {
             Storage = new LocalAirStorage();
             Serialisation = new SimpleAirSerialisation();
+            CommandProcessor = new SimpleAirCommandProcessor(this);
+            IdFactory = new SimpleAirIdFactory(2);
         }
+
+        /// <summary>
+        /// Gets or sets the Bootstrapping.
+        /// </summary>
+        /// <value>
+        /// The on bootstrap.
+        /// </value>
+        public Action<AirGraph> Bootstrapping { get; set; }
 
         /// <summary>
         /// Gets or sets the storage.
@@ -29,5 +41,21 @@ namespace Air
         /// The serialisation.
         /// </value>
         public IAirSerialisation Serialisation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the command processor.
+        /// </summary>
+        /// <value>
+        /// The command processor.
+        /// </value>
+        public IAirCommandProcessor CommandProcessor { get; set; }
+
+        /// <summary>
+        /// Gets or sets the id factory.
+        /// </summary>
+        /// <value>
+        /// The id factory.
+        /// </value>
+        public IAirIdFactory IdFactory { get; set; }
     }
 }

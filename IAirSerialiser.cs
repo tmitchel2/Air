@@ -11,7 +11,7 @@ namespace Air
         /// <typeparam name="T"></typeparam>
         /// <param name="data">The data.</param>
         /// <returns></returns>
-        T Deserialise<T>(byte[] data);
+        T Deserialise<T>(byte[] data) where T : IAirEntity;
 
         /// <summary>
         /// Serialises the specified item.

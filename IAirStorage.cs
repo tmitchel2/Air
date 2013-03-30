@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 namespace Air
@@ -14,6 +15,14 @@ namespace Air
         /// <param name="value">The value.</param>
         /// <returns></returns>
         Task AddAsync(long key, byte[] value);
+
+        /// <summary>
+        /// Sets the async.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        Task SetAsync(long key, byte[] value);
 
         /// <summary>
         /// Determines whether [contains] [the specified key].
@@ -37,5 +46,19 @@ namespace Air
         /// <param name="key">The key.</param>
         /// <returns></returns>
         Task<byte[]> TryGetAsync(long key);
+
+        /// <summary>
+        /// Gets the lock async.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
+        Task GetLockAsync(long key);
+
+        /// <summary>
+        /// Releases the lock async.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
+        Task ReleaseLockAsync(long key);
     }
 }
