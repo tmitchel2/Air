@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Air</id>
+        <version>0.0.3</version>
+        <title>Air</title>
+        <authors>Thomas Mitchell</authors>
+        <owners>Thomas Mitchell</owners>
+        <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Distributed graph database</description>
+        <releaseNotes />
+        <copyright>Copyright Thomas Mitchell 2013</copyright>
+        <tags>Distributed Graph Database</tags>
+        <dependencies>
+            <dependency id="protobuf-net" version="2.0.0.621" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="bin\Debug\Air.dll" target="lib\Air.dll" />
+    </files>
+</package>

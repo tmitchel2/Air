@@ -135,15 +135,16 @@ namespace Air
         /// SetServerId
         /// </summary>
         /// <param name="item"></param>
-        /// <returns></returns>
-        private async Task SetServerId(IAirEntity item)
+        /// <returns>Returns on completion</returns>
+        private Task SetServerId(IAirEntity item)
         {
-            //await Configuration.Storage.GetLockAsync(1);
-            //var node = await TryGetAsync<AirGraphNode>(1);
-            //item.Id = node.NextAvailableId++;
-            //await UpdateAsync(node);
-            //Configuration.Storage.ReleaseLockAsync(1);
+            // await Configuration.Storage.GetLockAsync(1);
+            // var node = await TryGetAsync<AirGraphNode>(1);
+            // item.Id = node.NextAvailableId++;
+            // await UpdateAsync(node);
+            // Configuration.Storage.ReleaseLockAsync(1);
             item.Id = Configuration.IdFactory.GetNextId();
+            return Task.Factory.StartNew(() => { });
         }
 
         /// <summary>

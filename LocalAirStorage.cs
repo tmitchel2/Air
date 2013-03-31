@@ -96,8 +96,8 @@ namespace Air
         /// Gets the lock async.
         /// </summary>
         /// <param name="key">The key.</param>
-        /// <returns></returns>
-        public async Task GetLockAsync(long key)
+        /// <returns>Returns on completion.</returns>
+        public Task GetLockAsync(long key)
         {
             lock (_syncLock)
             {
@@ -110,6 +110,8 @@ namespace Air
 
                 nodeSyncLock.WaitOne();
             }
+
+            return Task.Factory.StartNew(() => { });
         }
 
         /// <summary>

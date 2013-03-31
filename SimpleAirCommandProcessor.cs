@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
@@ -8,7 +9,7 @@ namespace Air
     /// </summary>
     public class SimpleAirCommandProcessor : IAirCommandProcessor
     {
-        private readonly AirGraph _graph;
+        private readonly AirConfiguration _configuration;
         private readonly BufferBlock<IAirCommand> _commandQueue;
 
         /// <summary>
@@ -17,7 +18,7 @@ namespace Air
         /// <param name="configuration">The configuration.</param>
         public SimpleAirCommandProcessor(AirConfiguration configuration)
         {
-            _graph = new AirGraph(configuration);
+            _configuration = configuration;
             _commandQueue = new BufferBlock<IAirCommand>();
         }
 
@@ -32,7 +33,7 @@ namespace Air
         /// <summary>
         /// Starts this instance.
         /// </summary>
-        public async void Start()
+        public void Start()
         {
             if (IsRunning)
             {
@@ -42,8 +43,10 @@ namespace Air
             IsRunning = true;
             while (IsRunning)
             {
-                var command = await _commandQueue.ReceiveAsync();
-                await command.Execute(_graph);
+                throw new NotImplementedException();
+
+                // var command = await _commandQueue.ReceiveAsync();
+                // await command.Execute(_graph);
             }
         }
 
