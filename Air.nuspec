@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Air</id>
-        <version>0.0.3</version>
+        <version>0.0.4</version>
         <title>Air</title>
         <authors>Thomas Mitchell</authors>
         <owners>Thomas Mitchell</owners>
@@ -14,6 +14,7 @@
         <tags>Distributed Graph Database</tags>
         <dependencies>
             <dependency id="protobuf-net" version="2.0.0.621" />
+            <dependency id="Microsoft.Tpl.Dataflow" version="4.5.9" />
         </dependencies>
     </metadata>
     <files>
