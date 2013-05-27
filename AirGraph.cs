@@ -108,6 +108,11 @@ namespace Air
         /// <returns></returns>
         public async Task UpdateAsync(IAirEntity item)
         {
+            if (item.Id == 0)
+            {
+                throw new ArgumentException("The item does not currently exist.");
+            }
+
             var serialiser = Configuration.Serialisation.Get(item.GetType());
             var data = serialiser.Serialise(item);
             await Configuration.Storage.SetAsync(item.Id, data);
